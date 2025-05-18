@@ -1,8 +1,11 @@
-# Use an official Python runtime as a parent image
-FROM python:3.10-slim
+# Use Alpine-based Python image for reduced vulnerabilities
+FROM python:3.12-alpine
 
 # Set the working directory in the container
 WORKDIR /app
+
+# Install build dependencies needed for some Python packages
+RUN apk add --no-cache --virtual .build-deps gcc musl-dev python3-dev
 
 # Copy the current directory contents into the container
 COPY . /app
@@ -10,6 +13,12 @@ COPY . /app
 # Install dependencies
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
+
+# Uninstall pip-audit if it gets installed as a transitive dependency
+RUN pip uninstall -y pip-audit
+
+# Remove build dependencies to reduce image size
+RUN apk del .build-deps
 
 # Expose the port the app runs on
 EXPOSE 8000
