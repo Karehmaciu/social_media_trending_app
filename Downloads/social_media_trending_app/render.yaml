@@ -5,6 +5,9 @@ services:
     plan: free
     buildCommand: pip install --upgrade pip && pip install -r requirements.txt
     startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    repo: https://github.com/Karehmaciu/AI-Social-Media.git
+    branch: main
+    rootDir: .
     envVars:
       - key: FLASK_ENV
         value: production
