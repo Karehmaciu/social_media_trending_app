@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Editor Home - AI Social Media Content Tool</title>
+    <script
+      src="{{ url_for('static', filename='tinymce/js/tinymce/tinymce.min.js') }}"
+      referrerpolicy="origin"
+    ></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+      h1 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        color: #333;
+      }
+      .container {
+        display: flex;
+        gap: 20px;
+      }
+      .editor-column {
+        flex: 7;
+        display: flex;
+        flex-direction: column;
+      }
+      .search-column {
+        flex: 3;
+        background-color: #f5f5f5;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .search-header {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .search-result {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: white;
+      }
+      .search-result h3 {
+        margin-top: 0;
+        margin-bottom: 5px;
+        font-size: 16px;
+      }
+      .search-result p {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        font-size: 14px;
+      }
+      .search-result small {
+        color: #666;
+        font-size: 12px;
+      }
+      .error {
+        color: red;
+      }
+      #search-results {
+        max-height: 600px;
+        overflow-y: auto;
+        margin: 10px 0;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+      }
+      #search-bar {
+        padding: 8px;
+        flex-grow: 1;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
+      button {
+        padding: 8px 12px;
+        cursor: pointer;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+      #clear-btn {
+        background-color: #f44336;
+      }
+      #clear-btn:hover {
+        background-color: #d32f2f;
+      }
+      .nav-menu {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+      .nav-menu h1 {
+        margin: 0;
+      }
+      .nav-links {
+        display: flex;
+        gap: 15px;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: #4caf50;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 4px;
+      }
+      .nav-links a:hover {
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="nav-menu">
+      <h1>AI Social Media Content Tool</h1>
+      <div class="nav-links">
+        <a href="/">Editor Home</a>
+        <a href="/create_content">Social Media Creator</a>
+        <a href="/saved_posts">Saved Posts</a>
+      </div>
+    </div>
+    <div class="container">
+      <div class="editor-column">
+        <textarea id="editor"></textarea>
+        <button id="generate-btn">Generate Draft</button>
+      </div>
+      <div class="search-column">
+        <h2>Search Trending Topics</h2>
+        <div class="search-header">
+          <input type="text" id="search-bar" placeholder="Search trending..." />
+          <button id="search-btn">Search</button>
+          <button id="clear-btn">Clear</button>
+        </div>
+        <div id="search-results"></div>
+      </div>
+    </div>
+    <script>
+      tinymce.init({
+        selector: "#editor", // Keep targeting the specific textarea
+        plugins: [
+          // Core editing features
+          "anchor",
+          "autolink",
+          "charmap",
+          "codesample",
+          "emoticons",
+          "image",
+          "imagetools", // Add imagetools plugin for better image editing
+          "link",
+          "lists",
+          "media",
+          "searchreplace",
+          "table",
+          "visualblocks",
+          "wordcount",
+          // Your account includes a free trial of TinyMCE premium features
+          // Try the most popular premium features until May 31, 2025:
+          "checklist",
+          "mediaembed",
+          "casechange",
+          "formatpainter",
+          "pageembed",
+          "a11ychecker",
+          "tinymcespellchecker",
+          "permanentpen",
+          "powerpaste",
+          "advtable",
+          "advcode",
+          "editimage",
+          "advtemplate",
+          "ai",
+          "mentions",
+          "tinycomments",
+          "tableofcontents",
+          "footnotes",
+          "mergetags",
+          "autocorrect",
+          "typography",
+          "inlinecss",
+          "markdown",
+          "importword",
+          "exportword",
+          "exportpdf",
+        ],
+        toolbar: [
+          "undo redo | formatselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify",
+          "bullist numlist | outdent indent | link image media table | removeformat | help",
+          "blocks fontfamily fontsize | forecolor backcolor | emoticons charmap",
+        ],
+        height: 600, // Increased height for better usability
+
+        // Advanced image toolbar
+        image_toolbar:
+          "alignleft aligncenter alignright | rotateleft rotateright | imageoptions",
+        image_caption: true,
+
+        // Enable image styling and positioning
+        image_class_list: [
+          { title: "None", value: "" },
+          { title: "Responsive", value: "img-fluid" },
+          { title: "Left", value: "float-left mr-3" },
+          { title: "Center", value: "mx-auto d-block" },
+          { title: "Right", value: "float-right ml-3" },
+        ],
+        image_dimensions: true,
+        image_title: true,
+        image_advtab: true,
+
+        // Add custom CSS for image positioning
+        content_style: `
+          img { max-width: 100%; height: auto; }
+          .float-left { float: left; margin-right: 15px; margin-bottom: 10px; }
+          .float-right { float: right; margin-left: 15px; margin-bottom: 10px; }
+          .img-fluid { max-width: 100%; height: auto; }
+        `,
+
+        // Enable relative URLs and set document_base_url
+        relative_urls: false,
+        remove_script_host: false,
+        document_base_url: window.location.origin + "/",
+        convert_urls: false,
+
+        // File upload configuration
+        images_upload_url: "/tinymce/upload",
+        automatic_uploads: true,
+
+        // Image tools and settings
+        image_advtab: true,
+        image_caption: true,
+        tinycomments_mode: "embedded",
+        tinycomments_author: "Author name",
+        mergetags_list: [
+          { value: "First.Name", title: "First Name" },
+          { value: "Email", title: "Email" },
+        ],
+
+        // AI Assistant configuration - connects to our Flask backend
+        ai_request: (request, respondWith) => {
+          const prompt = request.prompt;
+
+          fetch("/tinymce/ai", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.text) {
+                respondWith.string(() => Promise.resolve(data.text));
+              } else if (data.error) {
+                console.error("AI Assistant error:", data.error);
+                respondWith.string(() =>
+                  Promise.reject("Error: " + data.error)
+                );
+              } else {
+                respondWith.string(() => Promise.reject("Unknown error"));
+              }
+            })
+            .catch((error) => {
+              console.error("AI Assistant fetch error:", error);
+              respondWith.string(() =>
+                Promise.reject("Failed to connect to AI service.")
+              );
+            });
+        },
+      });
+    </script>
+    <script src="{{ url_for('static', filename='js/editor.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/serp_search.js') }}"></script>
+  </body>
+</html>

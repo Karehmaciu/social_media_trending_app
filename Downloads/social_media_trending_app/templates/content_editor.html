@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Content Creator - AI Social Media Content Tool</title>
+
+  <!-- TinyMCE - Using the existing setup from your app -->
+  <script src="{{ url_for('static', filename='tinymce/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      tinymce.init({
+        selector: '#editor',
+        height: 420,
+        plugins: [
+          "anchor", "autolink", "charmap", "codesample", "emoticons", "image", "imagetools",
+          "link", "lists", "media", "searchreplace", "table", "visualblocks", "wordcount",
+          "checklist", "mediaembed", "casechange", "formatpainter", "pageembed", "a11ychecker",
+          "tinymcespellchecker", "permanentpen", "powerpaste", "advtable", "advcode", "editimage",
+          "advtemplate", "ai", "mentions", "tinycomments", "tableofcontents", "footnotes",
+          "mergetags", "autocorrect", "typography", "inlinecss", "markdown", "importword",
+          "exportword", "exportpdf",
+        ],
+        toolbar: [
+          "undo redo | formatselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify",
+          "bullist numlist | outdent indent | link image media table | removeformat | help",
+          "blocks fontfamily fontsize | forecolor backcolor | emoticons charmap",
+        ],
+        
+        // Image tools and configuration from your existing setup
+        image_toolbar: "alignleft aligncenter alignright | rotateleft rotateright | imageoptions",
+        image_caption: true,
+        image_class_list: [
+          {title: 'None', value: ''},
+          {title: 'Responsive', value: 'img-fluid'},
+          {title: 'Left', value: 'float-left mr-3'},
+          {title: 'Center', value: 'mx-auto d-block'},
+          {title: 'Right', value: 'float-right ml-3'},
+        ],
+        image_dimensions: true,
+        image_title: true,
+        image_advtab: true,
+        
+        // File upload and other configurations from your existing setup
+        content_style: `
+          img { max-width: 100%; height: auto; }
+          .float-left { float: left; margin-right: 15px; margin-bottom: 10px; }
+          .float-right { float: right; margin-left: 15px; margin-bottom: 10px; }
+          .img-fluid { max-width: 100%; height: auto; }
+        `,
+        relative_urls: false,
+        remove_script_host: false,
+        document_base_url: window.location.origin + "/",
+        convert_urls: false,
+        images_upload_url: "/tinymce/upload",
+        automatic_uploads: true,
+        
+        // AI configuration from your existing setup
+        ai_request: (request, respondWith) => {
+          const prompt = request.prompt;
+          
+          fetch('/tinymce/ai', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt })
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.text) {
+              respondWith.string(() => Promise.resolve(data.text));
+            } else if (data.error) {
+              console.error('AI Assistant error:', data.error);
+              respondWith.string(() => Promise.reject('Error: ' + data.error));
+            } else {
+              respondWith.string(() => Promise.reject('Unknown error'));
+            }
+          })
+          .catch(error => {
+            console.error('AI Assistant fetch error:', error);
+            respondWith.string(() => Promise.reject('Failed to connect to AI service.'));
+          });
+        },
+        
+        file_picker_types: "image media",
+        file_picker_callback: function (cb, value, meta) {
+          var input = document.createElement("input");
+          input.setAttribute("type", "file");
+
+          // Set accepted file types based on the picker type
+          if (meta.filetype === "image") {
+            input.setAttribute("accept", "image/*");
+          }
+          if (meta.filetype === "media") {
+            input.setAttribute("accept", "video/*,audio/*");
+          }
+
+          input.onchange = function () {
+            var file = this.files[0];
+            var formData = new FormData();
+            formData.append("file", file);
+
+            // Upload the file
+            fetch("/tinymce/upload", {
+              method: "POST",
+              body: formData,
+            })
+              .then((response) => response.json())
+              .then((result) => {
+                if (result.location) {
+                  // Pass the uploaded file URL to the TinyMCE callback
+                  cb(result.location, { title: file.name });
+                } else if (result.error) {
+                  console.error("Upload failed:", result.error);
+                  alert("Upload failed: " + (result.error.message || "Unknown error"));
+                }
+              })
+              .catch((error) => {
+                console.error("Error uploading file:", error);
+                alert("Error uploading file: " + error);
+              });
+          };
+
+          input.click();
+        },
+      });
+    });
+  </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f8f9fa;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }    .nav-menu {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .nav-menu h1 {
+      margin-top: 0;
+      margin-bottom: 0;
+      color: #333;
+    }
+    .nav-links {
+      display: flex;
+      gap: 15px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #4caf50;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    .nav-links a:hover {
+      background-color: #f0f0f0;
+    }
+    .content-form {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .form-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .form-group {
+      flex: 1;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    select, input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button.secondary {
+      background-color: #f5f5f5;
+      color: #333;
+      border: 1px solid #ccc;
+    }    button:hover {
+      opacity: 0.9;
+    }
+    button.toggle-active {
+      background-color: #2e7d32;
+    }
+    footer {
+      margin-top: 20px;
+      color: #777;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+    .blog-snippet {
+      border-top: 1px solid #ddd;
+      padding-top: 15px;
+      margin-top: 15px;
+    }
+    .saved-posts {
+      margin-top: 30px;
+    }
+    .post-card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .post-platform {
+      display: inline-block;
+      padding: 3px 8px;
+      background: #e0f2f1;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    .post-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .post-actions button {
+      padding: 5px 10px;
+      font-size: 0.8rem;
+    }
+    .post-content {
+      max-height: 150px;
+      overflow: hidden;
+      position: relative;
+    }
+    .post-content.expanded {
+      max-height: none;
+    }
+    .post-fade {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+      background: linear-gradient(transparent, white);
+    }
+  </style>
+</head>
+<body>  <div class="container">
+    <div class="nav-menu">      <h1>AI Social Media Content Tool</h1>
+      <div class="nav-links">
+        <a href="/">Editor Home</a>
+        <a href="/create_content">Create Content</a>
+        <a href="/saved_posts">Saved Posts</a>
+      </div>
+    </div>
+    
+    <div class="content-form">
+      <form method="post" id="contentForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="platform">Platform:</label>
+            <select id="platform" name="platform">
+              {% for p in platforms %}
+                <option value="{{ p }}" {% if p == selected_platform %}selected{% endif %}>{{ p }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="tone">Tone:</label>
+            <select id="tone" name="tone">
+              {% for t in tones %}
+                <option value="{{ t }}" {% if t == selected_tone %}selected{% endif %}>{{ t }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="emoji_level">Emoji Level:</label>
+            <select id="emoji_level" name="emoji_level">
+              {% for e in emoji_levels %}
+                <option value="{{ e }}" {% if e == selected_emoji_level %}selected{% endif %}>{{ e }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="topic">Topic:</label>
+            <input type="text" id="topic" name="topic" value="{{ topic }}" placeholder="Enter your topic...">
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cta">Call to Action:</label>
+            <input type="text" id="cta" name="cta" value="{{ cta }}" placeholder="What action should readers take?">
+          </div>
+          
+          <div class="form-group">
+            <label for="length">Length:</label>
+            <select id="length" name="length">
+              {% for l in lengths %}
+                <option value="{{ l }}" {% if l == selected_length %}selected{% endif %}>{{ l }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        
+        <!-- TinyMCE editor -->
+        <textarea id="editor" name="content">{{ content|safe }}</textarea>
+          <div class="buttons">
+          <button type="submit" name="action" value="generate">Generate Content</button>
+          <button type="submit" name="action" value="save">Save Post</button>
+          <button type="button" class="secondary" id="clearBtn">Clear</button>
+          <button type="button" class="secondary" id="toggleBlogBtn">Toggle Blog Snippet</button>
+        </div>
+      </form>
+    </div>
+      <div class="saved-posts">
+      <h2>Recently Saved Posts</h2>
+      {% if saved_posts %}
+        {% for post in saved_posts %}
+          <div class="post-card">
+            <div class="post-header">
+              <div>
+                <span class="post-title">{{ post.title or post.platform + ' post' }}</span>
+                <div>
+                  <span class="post-platform">{{ post.platform }}</span>
+                  <span class="post-date">{{ post.created_at }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="post-actions">
+              <button onclick="viewPost('{{ post.id }}')">View</button>
+              <button onclick="editPost('{{ post.id }}')">Edit</button>
+              <button onclick="deletePost('{{ post.id }}')" class="secondary">Delete</button>
+            </div>
+          </div>
+        {% endfor %}
+        <div style="margin-top: 15px; text-align: center;">
+          <a href="/saved_posts" style="text-decoration: none; color: #4caf50; font-weight: bold;">View All Posts →</a>
+        </div>
+      {% else %}
+        <p>No saved posts yet.</p>
+      {% endif %}
+    </div>
+    
+    <footer>
+      © {{ current_year }} AI Social Media Content Tool | Last updated: {{ timestamp }}
+    </footer>
+  </div>
+  
+  <!-- Include external JS file for content editor -->
+  <script src="{{ url_for('static', filename='js/content_editor.js') }}"></script>
+</body>
+</html>

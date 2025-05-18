@@ -1,0 +1,37 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# Environment variables
+.env
+
+# Database files
+*.db
+*.sqlite3
+
+# Log files
+*.log
+
+# VS Code settings
+.vscode/
+
+# Uploads and user content
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Instance folder
+instance/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Cache
+.cache/
