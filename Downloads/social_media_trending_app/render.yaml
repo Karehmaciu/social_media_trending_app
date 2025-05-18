@@ -3,7 +3,7 @@ services:
     name: ai-social-media-content-tool
     runtime: python
     plan: free
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
     startCommand: gunicorn app:app
     envVars:
       - key: FLASK_ENV
