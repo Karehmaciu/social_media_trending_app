@@ -1,16 +1,20 @@
 # AI Social Media Content Tool
 
-A comprehensive tool for creating, managing, and sharing social media content across multiple platforms with AI assistance.
+A comprehensive tool for creating, managing, and sharing social media content across multiple platforms with AI assistance. This Flask-based application helps content creators streamline their workflow with intelligent content generation and management features.
+
+![AI Social Media Content Tool](https://via.placeholder.com/800x400?text=AI+Social+Media+Content+Tool)
 
 ## Features
 
-- **AI-Powered Content Creation**: Generate platform-specific social media content using AI
-- **Rich Text Editor**: TinyMCE integration for advanced content editing
+- **AI-Powered Content Creation**: Generate platform-specific social media content using AI tailored to each platform's best practices
+- **Rich Text Editor**: TinyMCE integration for advanced content editing with formatting options
 - **Multi-Platform Support**: Create content for LinkedIn, Facebook, Twitter/X, Instagram, TikTok, YouTube, Bluesky, and blogs
 - **Content Management**: Save, edit, and manage all your social media posts in one place
-- **Direct Sharing**: Share content directly to social media platforms or copy formatted content
-- **Export Options**: Download posts as Word documents for offline use
+- **Direct Sharing**: Share content directly to social media platforms or copy formatted content for manual posting
+- **Export Options**: Download posts as Word documents with preserved formatting for offline use
+- **Copy & Paste Functionality**: Specialized clipboard support for platforms without direct web APIs
 - **Search & Filter**: Find saved posts by platform, date, or content
+- **Platform-Specific Optimization**: Content is tailored to each platform's character limits, formatting options, and best practices
 
 ## Supported Platforms
 
@@ -35,29 +39,33 @@ A comprehensive tool for creating, managing, and sharing social media content ac
 ### Installation
 
 1. Clone the repository:
-   ```
+
+   ```bash
    git clone https://github.com/Karehmaciu/AI-Social-Media-Content-Tool.git
    cd AI-Social-Media-Content-Tool
    ```
 
 2. Install dependencies:
-   ```
+
+   ```bash
    pip install -r requirements.txt
    ```
 
 3. Create a `.env` file with your API keys:
-   ```
+
+   ```env
    OPENAI_API_KEY=your_openai_api_key
    TINYMCE_API_KEY=your_tinymce_api_key
    SERP_API_KEY=your_serp_api_key
    ```
 
 4. Run the application:
-   ```
+
+   ```bash
    python app.py
    ```
 
-5. Open http://127.0.0.1:8008 in your browser
+5. Open [http://127.0.0.1:8008](http://127.0.0.1:8008) in your browser
 
 ## Usage
 
