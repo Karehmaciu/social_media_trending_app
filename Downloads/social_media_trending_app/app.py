@@ -567,5 +567,11 @@ if __name__ == '__main__':
         print("Warning: SERP_API_KEY is not set in .env file. Search features will not work.")
     if not TINYMCE_API_KEY or TINYMCE_API_KEY == 'your_tinymce_api_key_here':
         print("Warning: TINYMCE_API_KEY is not set or is a placeholder in .env file. TinyMCE editor might not function correctly.")
+    
+    # Use PORT environment variable if available (for Render deployment)
+    port = int(os.environ.get("PORT", 8008))
+    
+    # Set debug based on environment
+    debug = os.environ.get("FLASK_ENV", "production") == "development"
         
-    app.run(port=8008, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=debug)

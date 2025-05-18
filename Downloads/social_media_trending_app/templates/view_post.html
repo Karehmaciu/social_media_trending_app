@@ -182,18 +182,34 @@
       }
       .share-reddit {
         background-color: #ff4500;
-      }      .share-pinterest {
+      }
+      .share-pinterest {
         background-color: #e60023;
       }
       .share-email {
         background-color: #6c757d;
-      }      .share-instagram {
+      }
+      .share-instagram {
         background-color: #e1306c;
-        background-image: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+        background-image: linear-gradient(
+          45deg,
+          #405de6,
+          #5851db,
+          #833ab4,
+          #c13584,
+          #e1306c,
+          #fd1d1d
+        );
       }
       .share-tiktok {
         background-color: #000000;
-        background-image: linear-gradient(45deg, #010101, #111111, #25F4EE, #FE2C55);
+        background-image: linear-gradient(
+          45deg,
+          #010101,
+          #111111,
+          #25f4ee,
+          #fe2c55
+        );
       }
       .share-youtube {
         background-color: #ff0000;
@@ -317,7 +333,8 @@
             >
               <i class="fab fa-reddit-alien"></i>
               Reddit
-            </a>            <!-- Pinterest -->
+            </a>
+            <!-- Pinterest -->
             <a
               href="javascript:void(0)"
               onclick="shareToPinterest()"
@@ -335,7 +352,8 @@
             >
               <i class="fab fa-instagram"></i>
               Instagram
-            </a>            <!-- Bluesky -->
+            </a>
+            <!-- Bluesky -->
             <a
               href="javascript:void(0)"
               onclick="shareToBluesky()"
@@ -344,7 +362,7 @@
               <i class="fas fa-cloud"></i>
               Bluesky
             </a>
-            
+
             <!-- TikTok -->
             <a
               href="javascript:void(0)"
@@ -354,7 +372,7 @@
               <i class="fab fa-tiktok"></i>
               TikTok
             </a>
-            
+
             <!-- YouTube -->
             <a
               href="javascript:void(0)"
@@ -372,8 +390,8 @@
               class="share-button share-email"
             >
               <i class="fas fa-envelope"></i>
-              Email
-            </a><!-- Copy Link -->
+              Email </a
+            ><!-- Copy Link -->
             <a
               href="javascript:void(0)"
               onclick="copyPostContent()"
@@ -414,11 +432,12 @@
               onclick="directShare('Facebook')"
             >
               <i class="fab fa-facebook-f"></i> Share directly to Facebook
-            </button>            {% elif post.platform == 'Instagram' %} This content is optimized
+            </button>
+            {% elif post.platform == 'Instagram' %} This content is optimized
             for Instagram. Copy this as your caption and add a compelling image.
             <button
               class="share-button share-instagram"
-              style="margin-top: 10px;"
+              style="margin-top: 10px"
               onclick="directShare('Instagram')"
             >
               <i class="fab fa-instagram"></i> Copy for Instagram
@@ -431,19 +450,21 @@
               onclick="directShare('X (Twitter)')"
             >
               <i class="fab fa-twitter"></i> Share directly to Twitter/X
-            </button>            {% elif post.platform == 'TikTok' %} This content is optimized for
+            </button>
+            {% elif post.platform == 'TikTok' %} This content is optimized for
             TikTok. Use it as a script for your video content.
             <button
               class="share-button share-tiktok"
-              style="margin-top: 10px;"
+              style="margin-top: 10px"
               onclick="directShare('TikTok')"
             >
               <i class="fab fa-tiktok"></i> Share directly to TikTok
-            </button>            {% elif post.platform == 'YouTube' %} This content is optimized for
+            </button>
+            {% elif post.platform == 'YouTube' %} This content is optimized for
             YouTube. Use it for your video description.
             <button
               class="share-button share-youtube"
-              style="margin-top: 10px;"
+              style="margin-top: 10px"
               onclick="directShare('YouTube')"
             >
               <i class="fab fa-youtube"></i> Share directly to YouTube
@@ -452,7 +473,7 @@
             Bluesky. Copy this text to create your Bluesky post.
             <button
               class="share-button share-bluesky"
-              style="margin-top: 10px;"
+              style="margin-top: 10px"
               onclick="directShare('Bluesky')"
             >
               <i class="fas fa-cloud"></i> Copy for Bluesky
@@ -574,7 +595,8 @@
           "&title=" +
           encodeURIComponent(title);
         window.open(url, "_blank", "width=600,height=400");
-      }      function shareToPinterest() {
+      }
+      function shareToPinterest() {
         const { title, content } = getPostContent();
         // For Pinterest, ideally we would have an image
         // Using a default description based on content
@@ -594,83 +616,107 @@
           navigator.clipboard.writeText(content).then(() => {
             // Show notification
             const notification = document.getElementById("copy-notification");
-            notification.textContent = 'Instagram caption copied to clipboard!';
+            notification.textContent = "Instagram caption copied to clipboard!";
             notification.style.display = "block";
             setTimeout(() => {
               notification.style.display = "none";
-              notification.textContent = 'Content copied to clipboard!';
-              alert("Instagram caption copied! Open the Instagram app and paste into your new post.");
+              notification.textContent = "Content copied to clipboard!";
+              alert(
+                "Instagram caption copied! Open the Instagram app and paste into your new post."
+              );
             }, 2000);
           });
         } catch (err) {
           console.error("Failed to copy: ", err);
-          alert("Failed to copy content. Your browser may not support this feature.");
+          alert(
+            "Failed to copy content. Your browser may not support this feature."
+          );
         }
-      }      function shareToBluesky() {
+      }
+      function shareToBluesky() {
         const { title, content } = getPostContent();
         // Bluesky doesn't have an official web sharing API yet, but we can prepare a short text
-        const blueskyText = title + "\n\n" + content.substring(0, 300) + (content.length > 300 ? "..." : "");
-        
+        const blueskyText =
+          title +
+          "\n\n" +
+          content.substring(0, 300) +
+          (content.length > 300 ? "..." : "");
+
         try {
           navigator.clipboard.writeText(blueskyText).then(() => {
             // Show notification
             const notification = document.getElementById("copy-notification");
-            notification.textContent = 'Bluesky post copied to clipboard!';
+            notification.textContent = "Bluesky post copied to clipboard!";
             notification.style.display = "block";
             setTimeout(() => {
               notification.style.display = "none";
-              notification.textContent = 'Content copied to clipboard!';
-              alert("Bluesky post copied! Open the Bluesky app and paste to create your new post.");
+              notification.textContent = "Content copied to clipboard!";
+              alert(
+                "Bluesky post copied! Open the Bluesky app and paste to create your new post."
+              );
             }, 2000);
           });
         } catch (err) {
           console.error("Failed to copy: ", err);
-          alert("Failed to copy content. Your browser may not support this feature.");
+          alert(
+            "Failed to copy content. Your browser may not support this feature."
+          );
         }
       }
-        function shareToTikTok() {
+      function shareToTikTok() {
         const { content } = getPostContent();
         // TikTok doesn't have a web sharing API, so format content for TikTok and copy to clipboard
-        const tikTokText = content.substring(0, 200) + (content.length > 200 ? "..." : ""); // TikTok captions are usually shorter
-        
+        const tikTokText =
+          content.substring(0, 200) + (content.length > 200 ? "..." : ""); // TikTok captions are usually shorter
+
         try {
           navigator.clipboard.writeText(tikTokText).then(() => {
             // Show notification
             const notification = document.getElementById("copy-notification");
-            notification.textContent = 'TikTok script copied to clipboard!';
+            notification.textContent = "TikTok script copied to clipboard!";
             notification.style.display = "block";
             setTimeout(() => {
               notification.style.display = "none";
-              notification.textContent = 'Content copied to clipboard!';
-              alert("TikTok content copied! Open the TikTok app and use this as your script or caption.");
+              notification.textContent = "Content copied to clipboard!";
+              alert(
+                "TikTok content copied! Open the TikTok app and use this as your script or caption."
+              );
             }, 2000);
           });
         } catch (err) {
           console.error("Failed to copy: ", err);
-          alert("Failed to copy content. Your browser may not support this feature.");
+          alert(
+            "Failed to copy content. Your browser may not support this feature."
+          );
         }
       }
-      
+
       function shareToYouTube() {
         const { title, content } = getPostContent();
         // YouTube doesn't have a web sharing API for descriptions, so format and copy
-        const youtubeText = title + "\n\n" + content + "\n\n#AI #SocialMedia #Content";
-        
+        const youtubeText =
+          title + "\n\n" + content + "\n\n#AI #SocialMedia #Content";
+
         try {
           navigator.clipboard.writeText(youtubeText).then(() => {
             // Show notification
             const notification = document.getElementById("copy-notification");
-            notification.textContent = 'YouTube description copied to clipboard!';
+            notification.textContent =
+              "YouTube description copied to clipboard!";
             notification.style.display = "block";
             setTimeout(() => {
               notification.style.display = "none";
-              notification.textContent = 'Content copied to clipboard!';
-              alert("YouTube description copied! Open YouTube Studio and paste into your video description.");
+              notification.textContent = "Content copied to clipboard!";
+              alert(
+                "YouTube description copied! Open YouTube Studio and paste into your video description."
+              );
             }, 2000);
           });
         } catch (err) {
           console.error("Failed to copy: ", err);
-          alert("Failed to copy content. Your browser may not support this feature.");
+          alert(
+            "Failed to copy content. Your browser may not support this feature."
+          );
         }
       }
 
@@ -688,7 +734,8 @@
           encodeURIComponent(subject) +
           "&body=" +
           encodeURIComponent(body);
-      }      function copyPostContent() {
+      }
+      function copyPostContent() {
         const { content } = getPostContent();
         try {
           navigator.clipboard.writeText(content).then(() => {
@@ -706,10 +753,10 @@
           );
         }
       }
-      
+
       function downloadAsWord() {
         const { title, content } = getPostContent();
-        
+
         // Create a blob with the content formatted as HTML
         const htmlContent = `
           <html>
@@ -725,32 +772,38 @@
             </head>
             <body>
               <h1>${title}</h1>
-              <p class="platform">Platform: ${document.querySelector('.post-platform').textContent}</p>
-              <p class="details">Created: ${document.querySelector('.post-date').textContent}</p>
-              <div>${tinymce.get('post-content').getContent()}</div>
+              <p class="platform">Platform: ${
+                document.querySelector(".post-platform").textContent
+              }</p>
+              <p class="details">Created: ${
+                document.querySelector(".post-date").textContent
+              }</p>
+              <div>${tinymce.get("post-content").getContent()}</div>
             </body>
           </html>
         `;
-        
-        const blob = new Blob([htmlContent], { type: 'application/vnd.ms-word' });
+
+        const blob = new Blob([htmlContent], {
+          type: "application/vnd.ms-word",
+        });
         const url = URL.createObjectURL(blob);
-        
+
         // Create a link and trigger the download
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = url;
-        a.download = `${title || 'Social Media Post'}.doc`;
+        a.download = `${title || "Social Media Post"}.doc`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        
+
         // Show notification
         const notification = document.getElementById("copy-notification");
-        notification.textContent = 'Word document downloaded!';
+        notification.textContent = "Word document downloaded!";
         notification.style.display = "block";
         setTimeout(() => {
           notification.style.display = "none";
-          notification.textContent = 'Content copied to clipboard!';
+          notification.textContent = "Content copied to clipboard!";
         }, 2000);
       }
 
@@ -764,16 +817,19 @@
             break;
           case "Facebook":
             shareToFacebook();
-            break;          case "Instagram":
+            break;
+          case "Instagram":
             // Instagram doesn't have a web sharing API, so copy to clipboard
             shareToInstagram();
             break;
           case "X (Twitter)":
             shareToTwitter();
-            break;          case "TikTok":
+            break;
+          case "TikTok":
             // TikTok doesn't have a web sharing API, so copy to clipboard
             shareToTikTok();
-            break;          case "YouTube":
+            break;
+          case "YouTube":
             // YouTube doesn't have a web sharing API, so copy to clipboard
             shareToYouTube();
             break;

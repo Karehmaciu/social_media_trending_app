@@ -2,3 +2,4 @@ flask
 openai
 google-search-results
 python-dotenv
+gunicorn

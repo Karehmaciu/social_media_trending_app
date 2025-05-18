@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: ai-social-media-content-tool
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: SERP_API_KEY
+        sync: false
+      - key: TINYMCE_API_KEY
+        sync: false
