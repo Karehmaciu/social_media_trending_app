@@ -5,7 +5,7 @@ services:
     plan: free
     buildCommand: pip install --upgrade pip && pip install -r requirements.txt
     startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
-    repo: https://github.com/Karehmaciu/AI-Social-Media.git
+    repo: https://github.com/Karehmaciu/social_media_app.git
     branch: main
     rootDir: .
     envVars:
