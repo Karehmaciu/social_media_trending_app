@@ -7,7 +7,7 @@ services:
     startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
     repo: https://github.com/Karehmaciu/social_media_app.git
     branch: main
-    rootDir: .
+    rootDir: Downloads/social_media_trending_app
     envVars:
       - key: FLASK_ENV
         value: production
