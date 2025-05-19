@@ -553,6 +553,10 @@ def share_post(post_id, platform):
         print(f"Error sharing post {post_id}: {e}")
         return jsonify({"error": f"Failed to prepare post for sharing: {str(e)}"}), 500
 
+@app.route('/healthz')
+def healthz():
+    return "ok", 200
+
 if __name__ == '__main__':
     # Ensure the serpapi import is valid before running
     try:
