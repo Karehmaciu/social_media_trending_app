@@ -3,7 +3,7 @@ services:
     name: ai-social-media-content
     runtime: python
     plan: free
-    rootDir: Downloads/social_media_trending_app
+    rootDir: .
     buildCommand: pip install --upgrade pip && pip install -r requirements.txt
     startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
     healthCheckPath: /healthz
