@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Content Creator - AI Social Media Content</title>
   <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon" />
   <link rel="icon" href="{{ url_for('static', filename='images/favicon.svg') }}" type="image/svg+xml" />
@@ -127,52 +128,58 @@
       });
     });
   </script>
-
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 20px;
+      padding: 15px;
       background: #f8f9fa;
     }
     .container {
-      max-width: 1200px;
+      max-width: 100%;
       margin: 0 auto;
-    }    .nav-menu {
+      padding: 0;
+    }
+    .nav-menu {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      align-items: flex-start;
       margin-bottom: 20px;
       padding-bottom: 10px;
       border-bottom: 1px solid #eee;
     }
     .nav-menu h1 {
       margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
       margin-bottom: 0;
       color: #333;
-    }
-    .nav-links {
+    }    .nav-links {
       display: flex;
-      gap: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     .nav-links a {
       text-decoration: none;
       color: #4caf50;
       font-weight: bold;
-      padding: 5px 10px;
+      padding: 8px 12px;
       border-radius: 4px;
+      font-size: 14px;
     }
     .nav-links a:hover {
       background-color: #f0f0f0;
     }
     .content-form {
       background: white;
-      padding: 20px;
+      padding: 15px;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     .form-row {
       display: flex;
+      flex-direction: column;
       gap: 15px;
       margin-bottom: 15px;
     }
@@ -183,17 +190,47 @@
       display: block;
       margin-bottom: 5px;
       font-weight: bold;
-    }
-    select, input[type="text"] {
+    }    select, input[type="text"] {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
-    }
-    .buttons {
+      font-size: 16px; /* Larger font size for better mobile usability */
+    }.buttons {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
       margin-top: 15px;
+    }
+    
+    /* Responsive design for tablets and larger screens */
+    @media (min-width: 768px) {
+      body {
+        padding: 20px;
+      }
+      .container {
+        max-width: 1200px;
+        padding: 0 15px;
+      }
+      .nav-menu {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .nav-menu h1 {
+        margin-bottom: 0;
+        font-size: inherit;
+      }
+      .nav-links {
+        margin-bottom: 0;
+        gap: 15px;
+      }
+      .content-form {
+        padding: 20px;
+      }
+      .form-row {
+        flex-direction: row;
+      }
     }
     button {
       padding: 10px 15px;

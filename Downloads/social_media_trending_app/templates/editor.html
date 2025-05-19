@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <title>Editor Home - AI Social Media Content</title>
     <link
       rel="icon"
@@ -21,31 +22,54 @@
       body {
         font-family: Arial, sans-serif;
         margin: 0;
-        padding: 20px;
+        padding: 15px;
       }
       h1 {
         margin-top: 0;
         margin-bottom: 20px;
         color: #333;
+        font-size: 1.8rem;
       }
       .container {
         display: flex;
+        flex-direction: column;
         gap: 20px;
       }
       .editor-column {
-        flex: 7;
         display: flex;
         flex-direction: column;
+        width: 100%;
       }
       .search-column {
-        flex: 3;
+        width: 100%;
         background-color: #f5f5f5;
         padding: 15px;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
+      
+      /* Responsive design for tablets and larger screens */
+      @media (min-width: 768px) {
+        body {
+          padding: 20px;
+        }
+        h1 {
+          font-size: 2rem;
+        }
+        .container {
+          flex-direction: row;
+        }
+        .editor-column {
+          flex: 7;
+        }
+        .search-column {
+          flex: 3;
+          width: auto;
+        }
+      }
       .search-header {
         display: flex;
+        flex-wrap: wrap;
         gap: 10px;
         margin-bottom: 10px;
       }
@@ -111,18 +135,35 @@
       }
       .nav-menu {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
         margin-bottom: 20px;
         padding-bottom: 10px;
         border-bottom: 1px solid #eee;
       }
       .nav-menu h1 {
-        margin: 0;
+        margin: 0 0 10px 0;
+        font-size: 1.5rem;
       }
       .nav-links {
         display: flex;
-        gap: 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      
+      @media (min-width: 768px) {
+        .nav-menu {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .nav-menu h1 {
+          margin: 0;
+          font-size: inherit;
+        }
+        .nav-links {
+          gap: 15px;
+        }
       }
       .nav-links a {
         text-decoration: none;
