@@ -1,20 +1,22 @@
 services:
   - type: web
-    name: ai-social-media-content
-    runtime: python
+    name: social-media-trending-app
+    env: python
     plan: free
-    rootDir: .
-    buildCommand: && pip install --upgrade pip && pip install -r requirements.txt
-    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
-    healthCheckPath: /healthz
-    repo: https://github.com/Karehmaciu/social_media_trending_app.git
-    branch: main
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app --bind 0.0.0.0:$PORT"
+    autoDeploy: true
     envVars:
-      - key: FLASK_ENV
-        value: production
-      - key: OPENAI_API_KEY
-        sync: false
-      - key: SERP_API_KEY
-        sync: false
-      - key: TINYMCE_API_KEY
-        sync: false
+      - key: PYTHON_VERSION
+        value: 3.10
+      - key: PORT
+        value: 10000
+    buildFilter:
+      ignoredPaths:
+        - "*.md"
+        - "*.txt"
+        - "*.json"
+        - "*.yml"
+        - "*.yaml"
+        - "tests/"
+        - "docs/"
