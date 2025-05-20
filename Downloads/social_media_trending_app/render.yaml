@@ -4,7 +4,7 @@ services:
     runtime: python
     plan: free
     rootDir: .
-    buildCommand: pip install --upgrade pip && pip install -r requirements_clean.txt
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
     startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
     healthCheckPath: /healthz
     repo: https://github.com/Karehmaciu/social_media_trending_app.git
