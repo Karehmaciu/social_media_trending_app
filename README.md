@@ -47,23 +47,23 @@ A comprehensive tool for creating, managing, and sharing social media content ac
 
 2. Install dependencies:
 
-   ```bash
+      bash
    pip install -r requirements.txt
-   ```
+   
 
 3. Create a `.env` file with your API keys:
 
-   ```env
+      env
    OPENAI_API_KEY=your_openai_api_key
    TINYMCE_API_KEY=your_tinymce_api_key
    SERP_API_KEY=your_serp_api_key
-   ```
+   
 
 4. Run the application:
 
-   ```bash
+     bash
    python app.py
-   ```
+   
 
 5. Open [http://127.0.0.1:8008](http://127.0.0.1:8008) in your browser
 
