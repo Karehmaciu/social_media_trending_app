@@ -1,7 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">  <head>
+<html lang="en">
+  <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
     <title>View Post - AI Social Media Content</title>
     <link
       rel="icon"
@@ -22,12 +26,14 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
-    <style>      body {
+    <style>
+      body {
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 15px;
         background: #f8f9fa;
-      }      .container {
+      }
+      .container {
         width: 100%;
         max-width: 100%;
         margin: 0 auto;
@@ -52,7 +58,8 @@
         flex-wrap: wrap;
         gap: 10px;
         margin-bottom: 10px;
-      }      .nav-links a {
+      }
+      .nav-links a {
         text-decoration: none;
         color: #4caf50;
         font-weight: bold;
@@ -146,7 +153,7 @@
         font-size: 12px;
         text-align: center;
       }
-      
+
       /* Responsive design for tablets and larger screens */
       @media (min-width: 768px) {
         body {
@@ -186,10 +193,14 @@
           <a href="/create_content">Create Content</a>
           <a href="/saved_posts">Saved Posts</a>
         </div>
-      </div>      <div class="post-container">
+      </div>
+      <div class="post-container">
         <div class="post-header">
           <h2 class="post-title">{{ post.title or 'Untitled Post' }}</h2>
-          <div class="post-meta" style="display: flex; flex-wrap: wrap; gap: 10px;">
+          <div
+            class="post-meta"
+            style="display: flex; flex-wrap: wrap; gap: 10px"
+          >
             <span class="post-platform">{{ post.platform }}</span>
             <span class="post-date">Created: {{ post.timestamp }}</span>
           </div>
@@ -222,9 +233,13 @@
             <span>{{ post.cta }}</span>
           </div>
           {% endif %}
-        </div>        <div class="share-container">
+        </div>
+        <div class="share-container">
           <h3 class="share-title">Share This Post</h3>
-          <div class="share-buttons" style="display: flex; flex-wrap: wrap; gap: 10px;">
+          <div
+            class="share-buttons"
+            style="display: flex; flex-wrap: wrap; gap: 10px"
+          >
             <!-- Facebook -->
             <a
               href="javascript:void(0)"
